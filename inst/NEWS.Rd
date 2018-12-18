@@ -1,6 +1,22 @@
 \name{NEWS}
 \title{News for Package 'rhdf5'}
 
+\section{Changes in version 2.26}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item Rhdf5lib has been updated to use HDF5 1.10 - this necessitated
+      some internal changes to rhdf5, but should be invisible to the user.
+      \item Functions to test and set file locking have added.  These can help
+      identify and address problems on Lustre and ZFS file systems.
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Compilation problem on Solaris have been addressed.
+    }
+  }
+}
+
 \section{Changes in version 2.24.0}{
   \subsection{NEW FEATURES}{
     \itemize{
