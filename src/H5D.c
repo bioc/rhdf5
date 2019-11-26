@@ -1017,6 +1017,9 @@ SEXP _H5Dread( SEXP _dataset_id, SEXP _file_space_id, SEXP _mem_space_id, SEXP _
                                Rdim, _buf, 
                                -1, -1, NULL, compoundAsDataFrame, bit64conversion, native);
     
+    // close data type
+    H5Tclose(dtype_id);
+    
     // close mem space
     if (length(_mem_space_id) == 0) {
         H5Sclose(mem_space_id);
