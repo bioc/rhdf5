@@ -94,7 +94,7 @@ void * read_string_datatype(hid_t mem_type_id, SEXP _buf) {
     if (!H5Tis_variable_str(mem_type_id)) {
         size_t stsize = H5Tget_size( mem_type_id );
         char * strbuf = (char *)R_alloc(LENGTH(_buf),stsize);
-        int i, j, z=0;
+        size_t i, j, z=0;
 
         for (i=0; i < LENGTH(_buf); i++) {
             for (j=0; (j < LENGTH(STRING_ELT(_buf,i))) & (j < stsize); j++) {

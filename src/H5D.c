@@ -434,7 +434,7 @@ SEXP H5Dread_helper_STRING(hid_t dataset_id, hid_t file_space_id, hid_t mem_spac
           if(herr < 0) {
             error("Unable to read dataset");
           }
-          for (int i=0; i<n; i++) {
+          for (hsize_t i=0; i<n; i++) {
               SET_STRING_ELT(Rval, i, mkChar(bufSTR[i]));
           }
           herr = H5Dvlen_reclaim(mem_type_id, file_space_id, H5P_DEFAULT, bufSTR);
@@ -450,8 +450,8 @@ SEXP H5Dread_helper_STRING(hid_t dataset_id, hid_t file_space_id, hid_t mem_spac
           char* bufSTR2 = R_alloc(size + 1, sizeof(char));
           bufSTR2[size] = '\0';
           char* bufSTR3 = ((char* )bufSTR);
-          for (int i=0; i<n; i++) {
-              for (int j=0; j<size; j++) {
+          for (hsize_t i=0; i<n; i++) {
+              for (size_t j=0; j<size; j++) {
                   bufSTR2[j] = bufSTR3[i*sizeof(char)*size+j];
               }
               SET_STRING_ELT(Rval, i, mkChar(bufSTR2));
@@ -513,10 +513,10 @@ SEXP H5Dread_helper_ENUM(hid_t dataset_id, hid_t file_space_id, hid_t mem_space_
             PERMUTE(Rval, INTEGER, mem_space_id);
         if (length(_buf) == 0) {
             if (native) {
-                for (int i=0; i < n; i++)
+                for (hsize_t i=0; i < n; i++)
                     INTEGER(Rval)[i] += 1;
             } else {
-                for (int i=0; i < n; i++)
+                for (hsize_t i=0; i < n; i++)
                     ((int *)buf)[i] += 1;
             }
             setAttrib(Rval, R_DimSymbol, Rdim);
@@ -527,7 +527,7 @@ SEXP H5Dread_helper_ENUM(hid_t dataset_id, hid_t file_space_id, hid_t mem_space_
     } else {
         double na = R_NaReal;
         Rval = PROTECT(allocVector(REALSXP, n));
-        for (int i=0; i<n; i++) { REAL(Rval)[i] = na; }
+        for (hsize_t i=0; i<n; i++) { REAL(Rval)[i] = na; }
         setAttrib(Rval, R_DimSymbol, Rdim);
         UNPROTECT(1);
         warning("h5read for type ENUM [%s] not yet implemented. Values replaced by NA's.", getDatatypeClass(H5Tget_super( dtype_id )));

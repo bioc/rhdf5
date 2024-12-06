@@ -1039,7 +1039,6 @@ SEXP _H5Pget_layout( SEXP _plist ) {
 
 /* herr_t H5Pset_chunk(hid_t plist, int ndims, const hsize_t * dim) */
 SEXP _H5Pset_chunk( SEXP _plist, SEXP _dim ) {
-    //hid_t plist = INTEGER(_plist)[0];
     hid_t plist = STRSXP_2_HID( _plist );
     int ndims = length(_dim);
     hsize_t dim[ndims];
@@ -1053,7 +1052,6 @@ SEXP _H5Pset_chunk( SEXP _plist, SEXP _dim ) {
 
 /* int H5Pget_chunk(hid_t plist, int max_ndims, hsize_t * dims) */
 SEXP _H5Pget_chunk( SEXP _plist ) {
-    //hid_t plist = INTEGER(_plist)[0];
     hid_t plist = STRSXP_2_HID( _plist );
     hsize_t   dims[H5S_MAX_RANK];
     int rank = H5Pget_chunk(plist, H5S_MAX_RANK, dims);
@@ -1070,7 +1068,6 @@ SEXP _H5Pget_chunk( SEXP _plist ) {
 
 /* herr_t H5Pset_deflate(hid_t plist_id, uint level) */
 SEXP _H5Pset_deflate( SEXP _plist_id, SEXP _level ) {
-    //hid_t plist_id = INTEGER(_plist_id)[0];
     hid_t plist_id = STRSXP_2_HID( _plist_id );
     unsigned int level = (unsigned int)INTEGER(_level)[0];
     herr_t herr = H5Pset_deflate(plist_id, level);

@@ -9,7 +9,7 @@ SEXP _h5createDataFrame(SEXP _obj, SEXP _loc_id, SEXP _name, SEXP _level, SEXP _
     
     size_t size = 0;
     size_t strsize[LENGTH(_obj)];
-    for (int i=0; i< LENGTH(_obj); i++) {
+    for (R_xlen_t i=0; i< LENGTH(_obj); i++) {
         if (TYPEOF(VECTOR_ELT(_obj,i)) == INTSXP) {
             size = size + H5Tget_size(H5T_NATIVE_INT32);
         } else if (TYPEOF(VECTOR_ELT(_obj,i)) == REALSXP) {
@@ -17,7 +17,7 @@ SEXP _h5createDataFrame(SEXP _obj, SEXP _loc_id, SEXP _name, SEXP _level, SEXP _
         } else if (TYPEOF(VECTOR_ELT(_obj,i)) == STRSXP) {
             strsize[i] = 0;
             size_t s2 = 0;
-            for (int j=0; j < LENGTH(VECTOR_ELT(_obj,i)); j++) {
+            for (R_xlen_t j=0; j < LENGTH(VECTOR_ELT(_obj,i)); j++) {
                 s2 = LENGTH(STRING_ELT(VECTOR_ELT(_obj,i),j));
                 if (s2 > strsize[i]) { strsize[i] = s2; }
             }
@@ -29,7 +29,7 @@ SEXP _h5createDataFrame(SEXP _obj, SEXP _loc_id, SEXP _name, SEXP _level, SEXP _
     hid_t tid = H5Tcreate (H5T_COMPOUND, size);
     hsize_t offset = 0;
     SEXP aa = getAttrib(_obj, mkString("names"));
-    for (int i=0; i< LENGTH(_obj); i++) {
+    for (R_xlen_t i=0; i< LENGTH(_obj); i++) {
         const char *nn = CHAR(STRING_ELT(aa, i));
         if (TYPEOF(VECTOR_ELT(_obj,i)) == INTSXP) {
             H5Tinsert (tid, nn, offset, H5T_NATIVE_INT32);
@@ -92,18 +92,18 @@ SEXP _h5writeDataFrame(SEXP _obj, SEXP _dset_id) {
     SEXP aa = getAttrib(_obj, mkString("names"));
     
     size_t strsize[LENGTH(_obj)];
-    for (int i=0; i< LENGTH(_obj); i++) {
+    for (R_xlen_t i=0; i< LENGTH(_obj); i++) {
         if (TYPEOF(VECTOR_ELT(_obj,i)) == STRSXP) {
             strsize[i] = 0;
             size_t s2 = 0;
-            for (int j=0; j < LENGTH(VECTOR_ELT(_obj,i)); j++) {
+            for (R_xlen_t j=0; j < LENGTH(VECTOR_ELT(_obj,i)); j++) {
                 s2 = LENGTH(STRING_ELT(VECTOR_ELT(_obj,i),j));
                 if (s2 > strsize[i]) { strsize[i] = s2; }
             }
         }
     }
 
-    for (int i=0; i< LENGTH(_obj); i++) {
+    for (R_xlen_t i=0; i< LENGTH(_obj); i++) {
         const char *nn = CHAR(STRING_ELT(aa, i));
         if (TYPEOF(VECTOR_ELT(_obj,i)) == INTSXP) {
             hid_t tidn = H5Tcreate (H5T_COMPOUND, H5Tget_size(H5T_NATIVE_INT32));
@@ -123,9 +123,9 @@ SEXP _h5writeDataFrame(SEXP _obj, SEXP _dset_id) {
             H5Tinsert (tidn, nn, 0, tid2);
             
             char * strbuf = (char *)R_alloc(n,strsize[i]);
-            int z=0;
-            int j;
-            for (int k=0; k < LENGTH(VECTOR_ELT(_obj,i)); k++) {
+            size_t z=0;
+            R_xlen_t j, k;
+            for (k=0; k < LENGTH(VECTOR_ELT(_obj,i)); k++) {
                 for (j=0; (j < LENGTH(STRING_ELT(VECTOR_ELT(_obj,i),k))) & (j < (strsize[i])); j++) {
                     strbuf[z++] = CHAR(STRING_ELT(VECTOR_ELT(_obj,i),k))[j];
                 }

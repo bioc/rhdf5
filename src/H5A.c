@@ -241,7 +241,7 @@ SEXP H5Aread_helper_STRING(hid_t attr_id, hsize_t n, SEXP Rdim, SEXP _buf, hid_t
     char *bufSTR[n];
     herr_t herr = H5Aread(attr_id, mem_type_id, bufSTR );
     if(herr < 0) { error("Error reading attribute"); }
-    for (int i=0; i<n; i++) {
+    for (hsize_t i=0; i<n; i++) {
       SET_STRING_ELT(Rval, i, mkChar(bufSTR[i]));
       free(bufSTR[i]);
     }
@@ -252,14 +252,14 @@ SEXP H5Aread_helper_STRING(hid_t attr_id, hsize_t n, SEXP Rdim, SEXP _buf, hid_t
     if(herr < 0) { error("Error reading attribute"); }
     
     char bufSTR2[n][size+1];
-    for (int i=0; i<n; i++) {
-      for (int j=0; j<size; j++) {
+    for (hsize_t i=0; i<n; i++) {
+      for (size_t j=0; j<size; j++) {
         bufSTR2[i][j] = bufSTR[i][j];
       }
       bufSTR2[i][size] = '\0';
     }
 
-    for (int i=0; i<n; i++) {
+    for (hsize_t i=0; i<n; i++) {
       SET_STRING_ELT(Rval, i, mkChar(bufSTR2[i]));
     }
   }
@@ -307,7 +307,7 @@ SEXP H5Aread_helper_ENUM(hid_t attr_id, hsize_t n, SEXP Rdim, SEXP _buf, hid_t d
   
   size_t max_string_length = 1024;
   char *st = H5allocate_memory(max_string_length, FALSE);
-  for (int i=0; i < n; i++) {
+  for (hsize_t i=0; i < n; i++) {
     memset(st, 0, max_string_length);
     H5Tenum_nameof	(	dtype_id, buf, st, max_string_length);
     SET_STRING_ELT(Rval, i, mkChar(st));
@@ -354,7 +354,7 @@ SEXP H5Aread_helper(hid_t attr_id, hsize_t n, SEXP Rdim, SEXP _buf, int bit64con
   default: {
     double na = R_NaReal;
     Rval = PROTECT(allocVector(REALSXP, n));
-    for (int i=0; i<n; i++) { REAL(Rval)[i] = na; }
+    for (hsize_t i=0; i<n; i++) { REAL(Rval)[i] = na; }
     setAttrib(Rval, R_DimSymbol, Rdim);
     UNPROTECT(1);
     warning("Reading attribute data of type '%s' not yet implemented. Values replaced by NA's.", getDatatypeClass(dtype_id));
