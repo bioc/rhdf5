@@ -58,7 +58,7 @@ h5writeDatasetHelper <- function (obj, h5dataset, index = NULL, start = NULL, st
         DimMem = length(obj)
     }
     try({
-        h5spaceMem <- H5Screate_simple(DimMem, NULL)
+        h5spaceMem <- H5Screate_simple(DimMem)
         on.exit(H5Sclose(h5spaceMem), add = TRUE, after = FALSE)
     })
     try({
