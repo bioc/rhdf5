@@ -16,6 +16,9 @@
       strings.  Backported to 2.50.1. 
       (Thanks to Aaron Lun @LTLA for reporting this
       https://github.com/grimbough/rhdf5/issues/151).
+      \item Addressed potential issued caused by undefined compiler behaviour
+      when arrays of length zero were being created in C code.  Backported to
+      2.50.2 (Thanks to Prof B. Ripley for reporing this.)
     }
   }
 }
