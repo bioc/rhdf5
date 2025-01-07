@@ -366,41 +366,40 @@ SEXP H5Aread_helper(hid_t attr_id, hsize_t n, SEXP Rdim, SEXP _buf, int bit64con
 
 /* herr_t H5Aread(hid_t attr_id, hid_t mem_type_id, void *buf ) */
 SEXP _H5Aread( SEXP _attr_id, SEXP _buf, SEXP _bit64conversion ) {
-    
+  
+  hsize_t *size, *maxsize, *dims;  
+  hsize_t n = 1;
+  SEXP Rdim;
   int bit64conversion = INTEGER(_bit64conversion)[0];
 
   /***********************************************************************/
   /* attr_id                                                          */
   /***********************************************************************/
   hid_t attr_id = STRSXP_2_HID( _attr_id );
+  
   /***********************************************************************/
   /* file_space_id and get dimensionality of output file_space and buf   */
   /***********************************************************************/
   hid_t file_space_id = H5Aget_space( attr_id );
   int rank = H5Sget_simple_extent_ndims( file_space_id );
-  hsize_t size[rank];
-  hsize_t maxsize[rank];
-  H5Sget_simple_extent_dims(file_space_id, size, maxsize);
-
-  /***********************************************************************/
-  /* create mem_space_id                                                 */
-  /***********************************************************************/
-  hsize_t n = 1;
-  hid_t mem_space_id;
-  SEXP Rdim;
-  for (int i=0; i < rank; i++) {
+  if(rank < 0) {
+    error("Error determining the attribute dimensions\n");
+  } else if(rank > 0) {
+    size    = (hsize_t *) R_alloc(rank, sizeof(hsize_t));
+    maxsize = (hsize_t *) R_alloc(rank, sizeof(hsize_t));
+    dims    = (hsize_t *) R_alloc(rank, sizeof(hsize_t));
+    H5Sget_simple_extent_dims(file_space_id, size, maxsize);
+    
+    for (int i = 0; i < rank; i++) {
       n = n * size[i];
-  }
-  hsize_t dims[rank];
-  for (int i=0; i<rank; i++) {
-    dims[i] = size[rank-i-1];
-  }
-  mem_space_id = H5Screate_simple( rank, dims, dims);
-  if (rank > 0) {
+      dims[i] = size[rank-i-1];
+    }
+    
     Rdim = PROTECT(allocVector(INTSXP, rank));
-    for (int i=0; i<rank; i++) {
+    for (int i = 0; i < rank; i++) {
       INTEGER(Rdim)[i] = dims[i];
     }
+    
   } else {
     Rdim = NULL_USER_OBJECT;
   }
@@ -408,11 +407,8 @@ SEXP _H5Aread( SEXP _attr_id, SEXP _buf, SEXP _bit64conversion ) {
   /***********************************************************************/
   /* read file space data type                                           */
   /***********************************************************************/
-
   SEXP Rval = H5Aread_helper(attr_id, n, Rdim, _buf, bit64conversion);
 
-  // close mem space
-  H5Sclose(mem_space_id);
   if (rank > 0) {
     UNPROTECT(1);
   }
