@@ -34,7 +34,7 @@ SEXP _h5getEnumValues( SEXP _dtype_id ) {
   void *buf = INTEGER(Rval);
   for (int i=0; i<nmembers; i++) {
     H5Tget_member_value(dtype_id, i, buf);
-    buf += sizeof(int);
+    buf = (int*)buf + 1;
   }
   
   UNPROTECT(1);
