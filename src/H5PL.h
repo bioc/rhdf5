@@ -9,7 +9,7 @@
 #include "HandleList.h"
 
 SEXP _H5PLprepend( SEXP _search_path );
-SEXP _H5PLsize();
+SEXP _H5PLsize( void );
 SEXP _H5PLget( SEXP index );
 
 #endif

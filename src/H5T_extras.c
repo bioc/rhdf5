@@ -41,7 +41,7 @@ SEXP _h5getEnumValues( SEXP _dtype_id ) {
   return Rval;
 }
 
-SEXP _h5createComplexDataType() {
+SEXP _h5createComplexDataType( void ) {
   
   hid_t dtype_id = H5Tcreate(H5T_COMPOUND, 2 * H5Tget_size(H5T_IEEE_F64LE));
   

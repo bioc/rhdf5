@@ -29,5 +29,5 @@ SEXP _H5Tget_nmembers( SEXP _dtype_id );
 // found in H5T_extras.c
 SEXP _h5getEnumNames( SEXP _dtype_id );
 SEXP _h5getEnumValues( SEXP _dtype_id );
-SEXP _h5createComplexDataType();
+SEXP _h5createComplexDataType( void );
 #endif

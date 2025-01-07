@@ -39,7 +39,7 @@ SEXP _H5PLget( SEXP index ) {
 
 
 /* herr_t H5PLsize	(	unsigned int * 	num_paths	) */
-SEXP _H5PLsize() {
+SEXP _H5PLsize(void) {
   
   SEXP Rval;
   unsigned int nvals = 0;

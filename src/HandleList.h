@@ -12,8 +12,8 @@ void addHandle(hid_t ID);
 
 void removeHandle( hid_t fid );
 
-SEXP _h5listIdentifier( );
-SEXP _h5validObjects( );
+SEXP _h5listIdentifier( void );
+SEXP _h5validObjects( void );
 
 SEXP _handleInfo(SEXP _ID);
 
