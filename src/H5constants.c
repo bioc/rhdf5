@@ -43,7 +43,7 @@ void addVector_hid( int pos, SEXP Rval, SEXP groupnames, const char *groupname, 
 }
 
 
-SEXP _H5constants( ) {
+SEXP _H5constants( void ) {
   SEXP Rval;
   PROTECT(Rval = allocVector(VECSXP, 21));
   SEXP groupnames = PROTECT(allocVector(STRSXP, 21));

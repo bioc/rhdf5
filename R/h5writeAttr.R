@@ -103,7 +103,10 @@ h5writeAttribute.array <- function(attr, h5obj, name, h5loc, encoding = NULL,
   h5attr <- H5Aopen(h5obj, name)
 
   DimMem <- dim(attr)
-  h5spaceMem <- H5Screate_simple(DimMem,NULL)
+  if (is.null(DimMem)) {
+    DimMem = length(attr)
+  }
+  h5spaceMem <- H5Screate_simple(DimMem)
 
   res <- H5Awrite(h5attr, attr) 
 

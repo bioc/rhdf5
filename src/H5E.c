@@ -103,12 +103,13 @@ herr_t _rhdf5PrintErrorR( hid_t estack_id, void * stream) {
         herr_t eee = H5Ewalk(estack_id_copy, H5E_WALK_UPWARD, &custom_print_cb, &client_data);
         if(eee < 0) { error("Error walking through HDF5 error stack"); }
         
-        int L = 0;
+        // minimum length of this string buffer is 8 to hold "libhdf5"
+        int L = 8;
         for (int i=0; i<client_data.n; i++) {
             L = L + strlen(client_data.txt[i]) + 2;
         }
         if (client_data.n > 1) {
-            char str[L];
+            char *str = (char *) R_alloc(L, sizeof(char));
             strcpy(str, "libhdf5");
             for (int i=0; i<client_data.n; i++) {
                 strcat(str, "\n");
@@ -135,13 +136,15 @@ herr_t _rhdf5PrintErrorRcompact( hid_t estack_id, void * stream) {
         herr_t eee = H5Ewalk(estack_id_copy, H5E_WALK_DOWNWARD, &custom_print_cb_compact, &client_data);
         if(eee < 0) { error("Error walking through HDF5 error stack"); }
         
-        int L = 0;
+        // minimum length of this string buffer is 8 to hold "libhdf5"
+        int L = 8;
         for (int i=0; i<client_data.n; i++) {
             L = L + strlen(client_data.txt[i]) + 2;
         }
         if (client_data.n > 1) {
-            char str[L];
+            char *str = (char *) R_alloc(L, sizeof(char));
             strcpy(str, "libhdf5");
+            
             for (int i=0; i<client_data.n; i++) {
                 strcat(str, "\n");
                 strcat(str, client_data.txt[i]);

@@ -34,14 +34,14 @@ SEXP _h5getEnumValues( SEXP _dtype_id ) {
   void *buf = INTEGER(Rval);
   for (int i=0; i<nmembers; i++) {
     H5Tget_member_value(dtype_id, i, buf);
-    buf += sizeof(int);
+    buf = (int*)buf + 1;
   }
   
   UNPROTECT(1);
   return Rval;
 }
 
-SEXP _h5createComplexDataType() {
+SEXP _h5createComplexDataType( void ) {
   
   hid_t dtype_id = H5Tcreate(H5T_COMPOUND, 2 * H5Tget_size(H5T_IEEE_F64LE));
   

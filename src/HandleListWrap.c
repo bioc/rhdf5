@@ -9,7 +9,7 @@ void
         addHandleCPP( id );
     }
 
-SEXP _h5listIdentifier( ) {
+SEXP _h5listIdentifier( void ) {
     hsize_t n_max = idListSizeCPP();
     hid_t * validIDs = (hid_t *)R_alloc( n_max, sizeof(hid_t) );
     hsize_t n = validIdentifierCPP( validIDs, n_max );
@@ -54,17 +54,15 @@ SEXP _h5listIdentifier( ) {
     return(Rval);
 }
 
-SEXP _h5validObjects( ) {
+SEXP _h5validObjects( void ) {
     hsize_t n_max = idListSizeCPP();
     hid_t * validIDs = (hid_t *)R_alloc( n_max, sizeof(hid_t) );
     hsize_t n = validIdentifierCPP( validIDs, n_max );
     
-    //SEXP Rval = PROTECT(allocVector(INTSXP, n));
     SEXP Rval = PROTECT(allocVector(STRSXP, n));
     if (n > 0) {
         hsize_t i;
         for (i=0; i < n; i++) {
-            //INTEGER(Rval)[i] = validIDs[i];
             SET_STRING_ELT(Rval, i, HID_2_CHARSXP(validIDs[i]));
         }
     }

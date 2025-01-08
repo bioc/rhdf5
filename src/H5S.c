@@ -140,7 +140,7 @@ SEXP _H5Sset_extent_simple( SEXP _space_id, SEXP _current_size, SEXP _maximum_si
     hid_t space_id = STRSXP_2_HID( _space_id );
     hid_t herr;
     int rank = length(_current_size);
-    hsize_t current_size[rank];
+    hsize_t *current_size = (hsize_t *)R_alloc(rank, sizeof(hsize_t));
     for (int i=0; i<rank; i++) {
         current_size[i] = (hsize_t) REAL(_current_size)[i];
     }
