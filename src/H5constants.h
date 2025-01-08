@@ -7,6 +7,6 @@
 #include <R_ext/Error.h>
 #include "myhdf5.h"
 
-SEXP _H5constants();
+SEXP _H5constants( void );
 
 #endif
