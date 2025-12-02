@@ -15,7 +15,6 @@ h5createAttribute(
   H5type = NULL,
   size = NULL,
   encoding = NULL,
-  cset = NULL,
   native = FALSE
 )
 }
