@@ -1,6 +1,17 @@
 \name{NEWS}
 \title{News for Package 'rhdf5'}
 
+\section{Changes in version 2.56.1}{
+  \subsection{New feature}{
+    \itemize{
+      \item NULL pointers in variable length string datasets are now read as 
+      \code{NA_character_} rather than an empty string. This allows rhdf5 
+      2.56.1 to read \code{NA_character_} from string data written with rhdf5
+      2.57.10 or later.
+    }
+  }
+}
+
 \section{Changes in version 2.56.0}{
 
   \subsection{Breaking changes}{
