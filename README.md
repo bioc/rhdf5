@@ -14,6 +14,7 @@ This R/Bioconductor package provides an interface between HDF5 and R. HDF5's mai
 
 For bug reports, please register an [issue](https://github.com/grimbough/rhdf5/issues) here on Github. For usage queries please post a question on the [Bioconductor Support Forum](https://support.bioconductor.org/p/new/post/?tag_val=rhdf5).
 
+This is an approved de.NBI service. Please help us improve by taking [our short user survey](https://www.surveymonkey.de/r/denbi-service?sc=hd-hub&tool=rhdf5).
 
 ## Funding
 
